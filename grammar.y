@@ -15,21 +15,24 @@ FILE *outfile;
     char *sval;
 }
 
-%token <sval> VAR
-%token <ival> NUMBER
-%token FACA SER MOSTRE
+%token <sval> var
+%token <ival> num
+%token FACA SER MOSTRE DOT OI
 
 %%
-program: cmds;
+programa: cmds;
 cmds: cmd | cmd cmds;
-
-cmd: atribuicao | impressao;
-
-atribuicao: FACA VAR SER NUMBER;
-impressao: MOSTRE NUMBER { printf("Mostrando: %d\n", $1); };
-
+cmd: atribuicao | impressao | olamundo;
+atribuicao: FACA var SER num DOT { printf("Atribuindo: %s = %d\n", $2, $4); };
+impressao: MOSTRE num DOT { printf("Mostrando: %d\n", $2); };
+olamundo: OI { printf("Ola mundo\n"); };
 %%
 
 void yyerror(const char *s) {
     fprintf(stderr, "Error: %s\n", s);
+}
+
+int main() {
+    yyparse();
+    return 0;
 }
