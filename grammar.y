@@ -1,37 +1,41 @@
 %{
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 void yyerror(const char *s);
 int yylex(void);
+
+// Output Rust file pointer
+FILE *outfile;
 %}
 
-%token NUMBER
+%union {
+    int ival;
+    char *sval;
+}
+
+%token <sval> var
+%token <ival> num
+%token FACA SER MOSTRE SOME MULTIPLIQUE REPITA FIM SE ENTAO SENAO COM POR VEZES
 %left '+' '-'
 %left '*' '/'
 
 %%
-input: /* empty */
-     | input line
-     ;
+program: cmds;
+cmds: cmd | cmd cmds;
 
-line: '\n'
-     | expr '\n' { printf("Result = %d\n", $1); }
-     ;
+cmd: atribuicao | impressao | operacao | repeticao | controle;
 
-expr: NUMBER
-     | expr '+' expr { $$ = $1 + $3; }
-     | expr '-' expr { $$ = $1 - $3; }
-     | expr '*' expr { $$ = $1 * $3; }
-     | expr '/' expr { $$ = $1 / $3; }
-     ;
+atribuicao: FACA var SER num;
+impressao: MOSTRE var | MOSTRE operacao;
+operacao: SOME var COM var | SOME var COM num | SOME num COM num | MULTIPLIQUE var POR var;
+repeticao: REPITA num VEZES: cmds FIM;
+controle: SE condicao ENTAO cmds | SE condicao ENTAO cmds SENAO cmds;
+condicao: num;
+
 %%
 
 void yyerror(const char *s) {
     fprintf(stderr, "Error: %s\n", s);
-}
-
-int main(void) {
-    printf("Enter expressions to calculate:\n");
-    return yyparse();
 }
