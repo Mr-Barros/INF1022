@@ -4,15 +4,11 @@
 
 %%
 "FACA" { return FACA; }
+"SER" { return SER; }
 "MOSTRE" { return MOSTRE; }
-"SOME" { return SOME; }
-"MULTIPLIQUE" { return MULTIPLIQUE; }
-"REPITA" { return REPITA; }
-"VEZES" { return VEZES; }
-"ENTAO" { return ENTAO; }
-"SENAO" { return SENAO; }
-[0-9]+ { yylval = atoi(yytext); return num; }
-[a-zA-Z_][a-zA-Z0-9_]* { yylval.sval = strdup(yytext); return var; }
+[0-9]+ { yylval.ival = atoi(yytext); return NUMBER; }
+[a-zA-Z_][a-zA-Z0-9_]* { yylval.sval = strdup(yytext); return VAR; }
+[ \t\n\r]+ { /* Ignore whitespace */ }
 .       { printf("Unknown character: %s\n", yytext); }
 
 %%

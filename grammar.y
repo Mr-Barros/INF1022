@@ -15,24 +15,18 @@ FILE *outfile;
     char *sval;
 }
 
-%token <sval> var
-%token <ival> num
-%token FACA SER MOSTRE SOME MULTIPLIQUE REPITA FIM SE ENTAO SENAO COM POR VEZES
-%left '+' '-'
-%left '*' '/'
+%token <sval> VAR
+%token <ival> NUMBER
+%token FACA SER MOSTRE
 
 %%
 program: cmds;
 cmds: cmd | cmd cmds;
 
-cmd: atribuicao | impressao | operacao | repeticao | controle;
+cmd: atribuicao | impressao;
 
-atribuicao: FACA var SER num;
-impressao: MOSTRE var | MOSTRE operacao;
-operacao: SOME var COM var | SOME var COM num | SOME num COM num | MULTIPLIQUE var POR var;
-repeticao: REPITA num VEZES: cmds FIM;
-controle: SE condicao ENTAO cmds | SE condicao ENTAO cmds SENAO cmds;
-condicao: num;
+atribuicao: FACA VAR SER NUMBER;
+impressao: MOSTRE NUMBER { printf("Mostrando: %d\n", $1); };
 
 %%
 
