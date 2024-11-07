@@ -14,7 +14,7 @@
 "." { return EOL; }
 [ \t\n]+   { /* ignore whitespace */ }
 [0-9]+ { yylval.sval = strdup(yytext); return num; }
-[a-zA-Z_][a-zA-Z0-9_]* { yylval.sval = strdup(yytext); return var; }
+[a-zA-Z_]+ { yylval.sval = strdup(yytext); return var; }
 .       { printf("Unknown character: %s\n", yytext); }
 
 %%
