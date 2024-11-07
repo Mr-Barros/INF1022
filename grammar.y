@@ -7,6 +7,7 @@ void yyerror(const char *s);
 int yylex(void);
 
 // Output Rust file pointer
+extern FILE *yyin;
 FILE *outfile;
 %}
 
@@ -16,16 +17,28 @@ FILE *outfile;
 }
 
 %token <sval> var
-%token <ival> num
-%token FACA SER MOSTRE DOT OI
+%token <sval> num
+%token FACA SER MOSTRE SOME COM REPITA VEZES FIM EOL
+
+%type <sval> valor
 
 %%
 programa: cmds;
 cmds: cmd | cmd cmds;
-cmd: atribuicao | impressao | olamundo;
-atribuicao: FACA var SER num DOT { printf("Atribuindo: %s = %d\n", $2, $4); };
-impressao: MOSTRE num DOT { printf("Mostrando: %d\n", $2); };
-olamundo: OI { printf("Ola mundo\n"); };
+cmd: atribuicao | impressao | operacao | repeticao;
+
+atribuicao: 
+    FACA var SER valor EOL { fprintf(outfile, "let %s: u32 = %s;\n", $2, $4); };
+impressao: 
+    MOSTRE valor EOL { fprintf(outfile, "println!(\"{}\", %s);\n", $2); };
+operacao:
+    SOME valor COM valor EOL { fprintf(outfile, "%s + %s\n", $2, $4); };
+repeticao: 
+    REPITA valor VEZES { fprintf(outfile, "for i in 0..%s {\n", $2); } 
+    cmds
+    FIM EOL { fprintf(outfile, "}\n"); };
+
+valor: var | num
 %%
 
 void yyerror(const char *s) {
@@ -33,6 +46,22 @@ void yyerror(const char *s) {
 }
 
 int main() {
+    yyin = fopen("input.mag", "rt");
+    if (!yyin) {
+        perror("Error opening input file\n");
+        exit(1);
+    }
+    outfile = fopen("output.rs", "wt");
+    if (!outfile) {
+        perror("Error opening output file\n");
+        exit(1);
+    }
+
+    fprintf(outfile, "fn main() {\n");
     yyparse();
+    fprintf(outfile, "}");
+
+    fclose(yyin);
+    fclose(outfile);
     return 0;
 }
