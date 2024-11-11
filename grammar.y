@@ -32,7 +32,7 @@ atribuicao:
 impressao:
     MOSTRE valor EOL { fprintf(outfile, "println!(\"{}\", %s);\n", $2); };
 operacao:
-    SOME valor COM valor EOL { fprintf(outfile, "%s += %s;\n", $2, $4); };
+    SOME var COM valor EOL { fprintf(outfile, "%s += %s;\n", $2, $4); };
 repeticao:
     REPITA valor VEZES { fprintf(outfile, "for _i in 0..%s {\n", $2); } 
     cmds
