@@ -6,6 +6,7 @@
 "FACA"|"faca" { return FACA; }
 "SER"|"ser" { return SER; }
 "MOSTRE"|"mostre" { return MOSTRE; }
+"MOSTRANDO" | "mostrando" {return MOSTRANDO}
 "SOME"|"some" { return SOME; }
 "COM"|"com" { return COM; }
 "REPITA"|"repita" { return REPITA; }

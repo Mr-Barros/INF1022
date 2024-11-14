@@ -18,21 +18,35 @@ FILE *outfile;
 
 %token <sval> var
 %token <sval> num
-%token FACA SER MOSTRE SOME COM REPITA VEZES FIM EOL
+%token FACA SER MOSTRE SOME COM REPITA VEZES FIM EOL MOSTRANDO
 
 %type <sval> valor
 
 %%
 programa: cmds;
-cmds: cmd | cmd cmds;
+cmds: cmd EOL | cmd EOL cmds;
 cmd: atribuicao | impressao | operacao | repeticao;
 
 atribuicao: 
-    FACA var SER valor EOL { fprintf(outfile, "let mut %s: u32 = %s;\n", $2, $4); };
+    FACA var SER valor { fprintf(outfile, "let mut %s: u32 = %s;\n", $2, $4); };
 impressao:
-    MOSTRE valor EOL { fprintf(outfile, "println!(\"{}\", %s);\n", $2); };
+    MOSTRE valor { fprintf(outfile, "println!(\"{}\", %s);\n", $2); };
 operacao:
-    SOME var COM valor EOL { fprintf(outfile, "%s += %s;\n", $2, $4); };
+    SOME var COM valor
+        {
+            fprintf(outfile, "%s += %s;\n", $2, $4);
+        }
+        MOSTRANDO
+        {
+            fprintf(outfile, "println!(\"{}\", %s);\n", $2);
+        }
+    |
+    SOME var COM valor
+        {
+            fprintf(outfile, "%s += %s;\n", $2, $4);
+        }
+    ;
+
 repeticao:
     REPITA valor VEZES { fprintf(outfile, "for _i in 0..%s {\n", $2); } 
     cmds
