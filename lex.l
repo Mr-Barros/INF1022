@@ -9,6 +9,7 @@
 "MOSTRE"|"mostre"       { return MOSTRE; }
 "MOSTRANDO"|"mostrando" { return MOSTRANDO; }
 "SOME"|"some"           { return SOME; }
+"MULTIPLIQUE"|"multiplique"           { return MULTIPLIQUE; }
 "COM"|"com"             { return COM; }
 "REPITA"|"repita"       { return REPITA; }
 "VEZES:"|"vezes:"       { return VEZES; }
