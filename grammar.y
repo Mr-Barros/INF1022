@@ -10,6 +10,7 @@
     extern FILE *yyin;
     FILE *outfile;
     char command[256];
+    char output_file[256];
 
     // Indentation tracking
     int indent_level = 1;
@@ -183,6 +184,8 @@ int main(int argc, char* argv[]) {
             exit(1);
         }
     }
+    strcpy(output_file, argv[1]);
+    strcat(output_file, ".rs"); // Adds the rust file extension to the output file
 
     // Open input and output files
     yyin = fopen(argv[2], "rt");
@@ -190,9 +193,9 @@ int main(int argc, char* argv[]) {
         fprintf(stderr, "Arquivo nao encontrado: %s\n", argv[2]);
         exit(1);
     }
-    outfile = fopen(strcat(argv[1], ".rs"), "wt");
+    outfile = fopen(output_file, "wt"); 
     if (!outfile) {
-        fprintf(stderr, "Erro ao criar arquivo: %s\n", argv[1]);
+        fprintf(stderr, "Erro ao criar arquivo: %s\n", output_file);
         exit(1);
     }
 
@@ -210,7 +213,7 @@ int main(int argc, char* argv[]) {
     fclose(outfile);
 
     // Compile rust file
-    /* snprintf(command, sizeof(command), "rustc %s.rs", argv[2]);
-    system(command); */
+    snprintf(command, sizeof(command), "rustc %s", output_file);
+    system(command);
     return 0;
 }
