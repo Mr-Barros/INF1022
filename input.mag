@@ -2,7 +2,7 @@ FACA total SER 0.
 FACA incremento SER 1.
 FACA numvezes SER 9.
 
-SE numvezes FOR MAIOR QUE 5 ENTAO
+SE numvezes FOR MAIOR QUE 5 OU 1 FOR MAIOR QUE 2 ENTAO
 
 REPITA numvezes VEZES:
 
@@ -12,7 +12,10 @@ SENAO
 SOME incremento COM 2.
 FIM DO SE.
 
-SOME total COM incremento MOSTRANDO.
+SOME total COM incremento.
+SOME 2 COM incremento MOSTRANDO.
 
 FIM.
 FIM DO SE.
+
+MOSTRE total.

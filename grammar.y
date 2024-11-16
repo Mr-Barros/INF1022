@@ -9,6 +9,7 @@
     // Output Rust file pointer
     extern FILE *yyin;
     FILE *outfile;
+    char command[256];
 
     // Indentation tracking
     int indent_level = 1;
@@ -34,7 +35,6 @@
 
 %type <sval> valor
 %type <sval> operador_relacional
-%type <ival> opt_mostrando
 
 %left OU
 %left E
@@ -70,24 +70,15 @@ impressao:
     };
 
 operacao:
-    SOME var COM valor opt_mostrando
+    SOME var COM valor
     {
         write_indent();
         fprintf(outfile, "%s += %s;\n", $2, $4);
-        if ($5) {
-            write_indent();
-            fprintf(outfile, "println!(\"{}\", %s);\n", $2);
-        }
     };
-
-opt_mostrando:
-    MOSTRANDO 
-    { 
-        $$ = 1; 
-    }
-    | /* empty */ 
-    { 
-        $$ = 0; 
+    | SOME num COM valor MOSTRANDO
+    {
+        write_indent();
+        fprintf(outfile, "println!(\"{}\", %s + %s);\n", $2, $4);
     };
 
 repeticao:
@@ -141,12 +132,14 @@ opt_senao:
     };
 
 expressao_booleana:
-    comparacao;
+    comparacao
+    | comparacao operador_logico comparacao;
+
 
 comparacao:
     valor operador_relacional valor 
     { 
-        fprintf(outfile, "%s %s %s ", $1, $2, $3); 
+        fprintf(outfile, "%s %s %s", $1, $2, $3); 
     };
 
 operador_relacional:
@@ -163,6 +156,10 @@ operador_relacional:
         $$ = "<"; 
     };
 
+operador_logico:
+    E { fprintf(outfile, " && "); }
+    | OU { fprintf(outfile, " || "); };
+
 valor: 
     var 
     | num;
@@ -173,23 +170,34 @@ void yyerror(const char *s) {
     fprintf(stderr, "Error: %s\n", s);
 }
 
-int main() {
-    // Open input and output files
-    yyin = fopen("input.mag", "rt");
-    if (!yyin) {
-        perror("Error opening input file\n");
+int main(int argc, char* argv[]) {
+    if (argc < 3 || argc > 4) {
+        fprintf(stderr, "Uso: ./grammar [arquivo de saida] [arquivo de entrada].mag\n");
         exit(1);
     }
-    outfile = fopen("output.rs", "wt");
+    if (argc == 4) {
+        if (strcmp(argv[3], "-d") == 0) {
+            yydebug = 1;
+        } else {
+            fprintf(stderr, "Opcao invalida: %s\n", argv[3]);
+            exit(1);
+        }
+    }
+
+    // Open input and output files
+    yyin = fopen(argv[2], "rt");
+    if (!yyin) {
+        fprintf(stderr, "Arquivo nao encontrado: %s\n", argv[2]);
+        exit(1);
+    }
+    outfile = fopen(strcat(argv[1], ".rs"), "wt");
     if (!outfile) {
-        perror("Error opening output file\n");
+        fprintf(stderr, "Erro ao criar arquivo: %s\n", argv[1]);
         exit(1);
     }
 
     // Suppress warnings about unused mutable variables in Rust
     fprintf(outfile, "#[allow(unused_mut)]\nfn main() {\n");
-
-    yydebug = 1;
 
     // Parse input and translate to Rust
     yyparse();
@@ -200,5 +208,9 @@ int main() {
     // Close files
     fclose(yyin);
     fclose(outfile);
+
+    // Compile rust file
+    /* snprintf(command, sizeof(command), "rustc %s.rs", argv[2]);
+    system(command); */
     return 0;
 }

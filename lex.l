@@ -8,15 +8,15 @@
 "SER"|"ser"             { return SER; }
 "MOSTRE"|"mostre"       { return MOSTRE; }
 "MOSTRANDO"|"mostrando" { return MOSTRANDO; }
-"SOME"|"some"           {  return SOME; }
+"SOME"|"some"           { return SOME; }
 "COM"|"com"             { return COM; }
-"REPITA"|"repita"       {  return REPITA; }
+"REPITA"|"repita"       { return REPITA; }
 "VEZES:"|"vezes:"       { return VEZES; }
-"FIM"|"fim"             {  return FIM; }
-"SE"                    {  return SE; }
+"FIM"|"fim"             { return FIM; }
+"SE"                    { return SE; }
 "ENTAO"                 {  return ENTAO; }
 "SENAO"                 {  return SENAO; }
-"FIM DO SE"               {  return FIMDOSE; }
+"FIM DO SE"             {  return FIMDOSE; }
 "FOR IGUAL A"           {  return FOR_IGUAL; }
 "FOR MENOR QUE"         {  return FOR_MENOR; }
 "FOR MAIOR QUE"         {  return FOR_MAIOR; }
