@@ -14,15 +14,15 @@ repeticao   → REPITA num VEZES: cmds FIM
 ##### Gramática Alterada
 
 programa    → cmds
-cmds        → cmd. | cmd. cmds
+cmds        → cmd. cmds | cmd.
 cmd         → atribuicao | impressao | operacao | repeticao | controle
 
 atribuicao  → FACA var SER valor
-impressao   → MOSTRE valor | MOSTRE operacao
+impressao   → MOSTRE valor
 operacao    → SOME valor COM valor | MULTIPLIQUE valor POR valor
 repeticao   → REPITA valor VEZES: cmds FIM | REPITA ENQUANTO condicao: cmds FIM
-controle    → SE condicao ENTAO cmds | SE condicao ENTAO cmds SENAO cmds
+controle    → SE condicao ENTAO cmds FIM DO SE | SE condicao ENTAO cmds SENAO cmds FIM DO SE
 
 condicao    → valor FOR IGUAL A valor | valor FOR MAIOR QUE valor | valor FOR MENOR QUE valor |
-              condicao OU condicao | condicao E condicao
+              (condicao OU condicao) | (condicao E condicao) | (condicao)
 valor       → var | num

@@ -1,6 +1,18 @@
 FACA total SER 0.
-REPITA 6 VEZES:
-SOME total COM 2.
-SOME total COM 4 MOSTRANDO.
+FACA incremento SER 1.
+FACA numvezes SER 9.
+
+SE numvezes FOR MAIOR QUE 5 ENTAO
+
+REPITA numvezes VEZES:
+
+SE incremento FOR MENOR QUE 6 ENTAO
+SOME incremento COM 1.
+SENAO
+SOME incremento COM 2.
+FIM DO SE.
+
+SOME total COM incremento MOSTRANDO.
+
 FIM.
-MOSTRE total.
+FIM DO SE.
