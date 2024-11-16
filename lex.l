@@ -22,8 +22,6 @@
 "FOR MAIOR QUE"         {  return FOR_MAIOR; }
 "OU"                    {  return OU; }
 "E"                     {  return E; }
-"("                     {  return ABREP; }
-")"                     {  return FECHAP; }
 "."                   { return EOL; }
 [ \t\n]+              { /* Ignore whitespace */ }
 [0-9]+                { 

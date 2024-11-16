@@ -32,10 +32,11 @@
 
 %token <sval> var
 %token <sval> num
-%token FACA SER MOSTRE SOME COM REPITA VEZES FIM EOL MOSTRANDO SE ENTAO FOR_IGUAL FOR_MAIOR FOR_MENOR OU E SENAO ABREP FECHAP FIMDOSE
+%token FACA SER MOSTRE SOME COM REPITA VEZES FIM EOL MOSTRANDO SE ENTAO FOR_IGUAL FOR_MAIOR FOR_MENOR OU E SENAO FIMDOSE MULTIPLIQUE
 
 %type <sval> valor
 %type <sval> operador_relacional
+%type <sval> operador_numerico
 
 %left OU
 %left E
@@ -71,16 +72,19 @@ impressao:
     };
 
 operacao:
-    SOME var COM valor
+    operador_numerico var COM valor
     {
         write_indent();
-        fprintf(outfile, "%s += %s;\n", $2, $4);
+        fprintf(outfile, "%s %s= %s;\n", $2, $1, $4);
     };
-    | SOME num COM valor MOSTRANDO
+    | operador_numerico num COM valor MOSTRANDO
     {
         write_indent();
-        fprintf(outfile, "println!(\"{}\", %s + %s);\n", $2, $4);
+        fprintf(outfile, "println!(\"{}\", %s %s %s);\n", $2, $1, $4);
     };
+
+operador_numerico:
+    SOME {$$ = "+";} | MULTIPLIQUE {$$ = "*";};
 
 repeticao:
     REPITA valor VEZES 

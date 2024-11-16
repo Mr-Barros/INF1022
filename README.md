@@ -13,16 +13,19 @@ repeticao   → REPITA num VEZES: cmds FIM
 
 ##### Gramática Alterada
 
-programa    → cmds
-cmds        → cmd. cmds | cmd.
+programa    → cmd_list
+cmds        → cmd. cmd_list | cmd.
 cmd         → atribuicao | impressao | operacao | repeticao | controle
 
 atribuicao  → FACA var SER valor
 impressao   → MOSTRE valor
-operacao    → SOME valor COM valor | MULTIPLIQUE valor POR valor
-repeticao   → REPITA valor VEZES: cmds FIM | REPITA ENQUANTO condicao: cmds FIM
-controle    → SE condicao ENTAO cmds FIM DO SE | SE condicao ENTAO cmds SENAO cmds FIM DO SE
-
-condicao    → valor FOR IGUAL A valor | valor FOR MAIOR QUE valor | valor FOR MENOR QUE valor |
-              (condicao OU condicao) | (condicao E condicao) | (condicao)
+operacao    → operador_numerico var COM valor | operador_numerico num COM valor MOSTRANDO
+operador_numerico → SOME | MULTIPLIQUE
+repeticao   → REPITA valor VEZES: cmd_list FIM
+controle    → SE expressao_booleana ENTAO cmd_list opt_senao FIM DO SE
+opt_senao   → SENAO cmd_list | epsilon
+expressao_booleana → comparacao | comparacao operador_logico comparacao
+comparacao    → valor operador_relacional valor 
+operador_relacional → FOR MAIOR QUE | FOR MENOR QUE | FOR IGUAL A
+operador_logico → OU | E
 valor       → var | num
