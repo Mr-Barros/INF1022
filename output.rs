@@ -1,4 +1,5 @@
 #[allow(unused_mut)]
+#[allow(unused_variables)]
 fn main() {
     let mut total: u32 = 0;
     let mut incremento: u32 = 1;

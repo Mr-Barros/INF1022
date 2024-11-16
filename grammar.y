@@ -204,7 +204,7 @@ int main(int argc, char* argv[]) {
     }
 
     // Suppress warnings about unused mutable variables in Rust
-    fprintf(outfile, "#[allow(unused_mut)]\nfn main() {\n");
+    fprintf(outfile, "#[allow(unused_mut)]\n#[allow(unused_variables)]\nfn main() {\n");
 
     // Parse input and translate to Rust
     yyparse();
