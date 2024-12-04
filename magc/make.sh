@@ -5,7 +5,5 @@ echo "Running lex..."
 lex lex.l
 echo "Compiling grammar and lex..."
 gcc grammar.tab.c lex.yy.c -o grammar -ll
-echo "Running grammar to generate Rust file..."
-./grammar output input.mag
-echo "Running the Rust Code"
-./output
+echo "Compiler compiled"
+echo "Use magc to compile .mag file"

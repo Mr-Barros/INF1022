@@ -11,6 +11,7 @@
     FILE *outfile;
     char command[256];
     char output_file[256];
+    char exec_file[256];
 
     // Indentation tracking
     int indent_level = 1;
@@ -177,7 +178,7 @@ void yyerror(const char *s) {
 
 int main(int argc, char* argv[]) {
     if (argc < 3 || argc > 4) {
-        fprintf(stderr, "Uso: ./grammar [arquivo de saida] [arquivo de entrada].mag\n");
+        fprintf(stderr, "Uso: magc [arquivo de saida].rs [arquivo de entrada].mag\n");
         exit(1);
     }
     if (argc == 4) {
@@ -188,8 +189,14 @@ int main(int argc, char* argv[]) {
             exit(1);
         }
     }
-    strcpy(output_file, argv[1]);
-    strcat(output_file, ".rs"); // Adds the rust file extension to the output file
+    strcpy(output_file, argv[1]); // Copy the first parameter to output file name
+    strcpy(exec_file, argv[1]); // Copy first parameter to executable file name
+
+    // Remove the ".rs" if it exists
+    size_t len = strlen(exec_file);
+    if (len > 3 && strcmp(&exec_file[len - 3], ".rs") == 0) {
+        exec_file[len - 3] = '\0'; // Truncate the string
+    }
 
     // Open input and output files
     yyin = fopen(argv[2], "rt");
@@ -217,7 +224,7 @@ int main(int argc, char* argv[]) {
     fclose(outfile);
 
     // Compile rust file
-    snprintf(command, sizeof(command), "rustc %s", output_file);
+    snprintf(command, sizeof(command), "rustc %s -o %s", output_file, exec_file);
     system(command);
     return 0;
 }
