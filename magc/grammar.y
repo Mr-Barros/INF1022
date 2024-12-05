@@ -33,11 +33,10 @@
 
 %token <sval> var
 %token <sval> num
-%token FACA SER MOSTRE SOME COM REPITA VEZES FIM EOL MOSTRANDO SE ENTAO FOR_IGUAL FOR_MAIOR FOR_MENOR OU E SENAO FIMDOSE MULTIPLIQUE
+%token FACA SER MOSTRE SOME COM REPITA VEZES FIM EOL MOSTRANDO SE ENTAO FOR_IGUAL FOR_MAIOR FOR_MENOR OU E SENAO FIMDOSE MULTIPLIQUE POR
 
 %type <sval> valor
 %type <sval> operador_relacional
-%type <sval> operador_numerico
 
 %left OU
 %left E
@@ -73,19 +72,26 @@ impressao:
     };
 
 operacao:
-    operador_numerico var COM valor
+    SOME var COM valor
     {
         write_indent();
-        fprintf(outfile, "%s %s= %s;\n", $2, $1, $4);
-    };
-    | operador_numerico num COM valor MOSTRANDO
+        fprintf(outfile, "%s += %s;\n", $2, $4);
+    }
+    | MULTIPLIQUE var POR valor
     {
         write_indent();
-        fprintf(outfile, "println!(\"{}\", %s %s %s);\n", $2, $1, $4);
+        fprintf(outfile, "%s *= %s;\n", $2, $4);
+    }
+    | SOME num COM valor MOSTRANDO
+    {
+        write_indent();
+        fprintf(outfile, "println!(\"{}\", %s + %s);\n", $2, $4);
+    }
+    | MULTIPLIQUE num POR valor MOSTRANDO
+    {
+        write_indent();
+        fprintf(outfile, "println!(\"{}\", %s * %s);\n", $2, $4);
     };
-
-operador_numerico:
-    SOME {$$ = "+";} | MULTIPLIQUE {$$ = "*";};
 
 repeticao:
     REPITA valor VEZES 
@@ -138,7 +144,8 @@ opt_senao:
     };
 
 expressao_booleana:
-    comparacao
+    valor { fprintf(outfile, "%s != 0", $1); }
+    | comparacao
     | comparacao operador_logico comparacao;
 
 

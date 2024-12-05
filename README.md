@@ -19,12 +19,11 @@ cmd                 → atribuicao | impressao | operacao | repeticao | controle
 
 atribuicao          → FACA var SER valor
 impressao           → MOSTRE valor
-operacao            → operador_numerico var COM valor | operador_numerico num COM valor MOSTRANDO
-operador_numerico   → SOME | MULTIPLIQUE
+operacao            → SOME var COM valor | SOME num COM valor MOSTRANDO | MULTIPLIQUE var POR valor | MULTIPLIQUE num POR valor MOSTRANDO
 repeticao           → REPITA valor VEZES: cmd_list FIM
 controle            → SE expressao_booleana ENTAO cmd_list opt_senao FIM DO SE
 opt_senao           → SENAO cmd_list | epsilon
-expressao_booleana  → comparacao | comparacao operador_logico comparacao
+expressao_booleana  → valor | comparacao | comparacao operador_logico comparacao
 comparacao          → valor operador_relacional valor 
 operador_relacional → FOR MAIOR QUE | FOR MENOR QUE | FOR IGUAL A
 operador_logico     → OU | E

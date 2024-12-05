@@ -11,6 +11,7 @@
 "SOME"|"some"           { return SOME; }
 "MULTIPLIQUE"|"multiplique"           { return MULTIPLIQUE; }
 "COM"|"com"             { return COM; }
+"POR"|"por"             { return POR; }
 "REPITA"|"repita"       { return REPITA; }
 "VEZES:"|"vezes:"       { return VEZES; }
 "FIM"|"fim"             { return FIM; }

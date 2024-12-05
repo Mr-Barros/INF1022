@@ -1,6 +1,8 @@
 #[allow(unused_mut)]
 #[allow(unused_variables)]
 fn main() {
-    let mut x: u32 = 10;
-    println!("{}", x);
+    let mut a: u32 = 3;
+    let mut b: u32 = 7;
+    a += b;
+    println!("{}", a);
 }
