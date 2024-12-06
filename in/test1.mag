@@ -10,12 +10,12 @@ SE incremento FOR MENOR QUE 6 ENTAO
 SOME incremento COM 1.
 SENAO
 SOME incremento COM 2.
-FIM.
+FIM
 
 SOME total COM incremento.
 SOME 2 COM incremento MOSTRANDO.
 
-FIM.
-FIM.
+FIM
+FIM
 
 MOSTRE total.

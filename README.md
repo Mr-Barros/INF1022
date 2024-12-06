@@ -14,8 +14,8 @@ repeticao           → REPITA num VEZES: cmds FIM
 ##### Gramática Alterada
 
 programa            → cmd_list
-cmd_list            → cmd. cmd_list | cmd.
-cmd                 → atribuicao | impressao | operacao | repeticao | controle
+cmd_list            → cmd. cmd_list | cmd
+cmd                 → atribuicao. | impressao. | operacao. | repeticao | controle
 
 atribuicao          → FACA var SER valor
 impressao           → MOSTRE valor

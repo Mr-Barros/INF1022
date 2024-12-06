@@ -47,14 +47,14 @@
 programa: cmd_list;
 
 cmd_list:
-    cmd EOL cmd_list 
-    | cmd EOL;
+    cmd cmd_list 
+    | cmd;
 
 cmd:
-    atribuicao 
-    | impressao 
-    | operacao 
-    | repeticao 
+    atribuicao EOL
+    | impressao EOL
+    | operacao EOL
+    | repeticao
     | controle;
 
 atribuicao:
