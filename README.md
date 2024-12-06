@@ -21,7 +21,7 @@ atribuicao          → FACA var SER valor
 impressao           → MOSTRE valor
 operacao            → SOME var COM valor | SOME num COM valor MOSTRANDO | MULTIPLIQUE var POR valor | MULTIPLIQUE num POR valor MOSTRANDO
 repeticao           → REPITA valor VEZES: cmd_list FIM
-controle            → SE expressao_booleana ENTAO cmd_list opt_senao FIM DO SE
+controle            → SE expressao_booleana ENTAO cmd_list opt_senao FIM
 opt_senao           → SENAO cmd_list | epsilon
 expressao_booleana  → valor | comparacao | comparacao operador_logico comparacao
 comparacao          → valor operador_relacional valor 

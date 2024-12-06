@@ -33,7 +33,7 @@
 
 %token <sval> var
 %token <sval> num
-%token FACA SER MOSTRE SOME COM REPITA VEZES FIM EOL MOSTRANDO SE ENTAO FOR_IGUAL FOR_MAIOR FOR_MENOR OU E SENAO FIMDOSE MULTIPLIQUE POR
+%token FACA SER MOSTRE SOME COM REPITA VEZES FIM EOL MOSTRANDO SE ENTAO FOR_IGUAL FOR_MAIOR FOR_MENOR OU E SENAO MULTIPLIQUE POR
 
 %type <sval> valor
 %type <sval> operador_relacional
@@ -122,7 +122,7 @@ controle:
     }  
     cmd_list
     opt_senao
-    FIMDOSE 
+    FIM 
     { 
         indent_level--;
         write_indent();

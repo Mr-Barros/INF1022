@@ -18,7 +18,6 @@
 "SE"                    { return SE; }
 "ENTAO"                 {  return ENTAO; }
 "SENAO"                 {  return SENAO; }
-"FIM DO SE"             {  return FIMDOSE; }
 "FOR IGUAL A"           {  return FOR_IGUAL; }
 "FOR MENOR QUE"         {  return FOR_MENOR; }
 "FOR MAIOR QUE"         {  return FOR_MAIOR; }
